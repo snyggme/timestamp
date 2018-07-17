@@ -32,18 +32,19 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string", function (req, res) {
-  const date = ''
+  let date = ''
   
-  if (req.params.date_string === '')
-    date = new Date()
-  else
-    date = new Date(req.params.date_string)
-  
-  // if (date === '')
+  // if (req.params.date_string === '')
   //   date = new Date()
+  // else
+  //   date = new Date(req.params.date_string)
   
-  if (date)
-    res.json({unix: date.getTime(), utc: date.toUTCString()})
+  if (Date.parse(req.params.date_string))
+    res.json({unix: new Date(req.params.date_string).getTime(), utc: new Date(req.params.date_string).toUTCString()})
+  else if (req.params.date_string === '')
+    res.json({unix: new Date().getTime(), utc: new Date().toUTCString()})
+  else if (+req.params.date_string > 0)
+    res.json({unix: new Date(req.params.date_string).getTime(), utc: new Date(req.params.date_string).toUTCString()})
   else 
     res.json({unix: null, utc: 'Invalid Date'})
   
