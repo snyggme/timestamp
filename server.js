@@ -40,7 +40,7 @@ app.get("/api/timestamp/:date_string", function (req, res) {
   //   date = new Date(req.params.date_string)
   
   if (Date.parse(req.params.date_string))
-    res.json({unix: new Date(req.params.date_string).getTime(), utc: new Date(req.params.date_string).toUTCString()})
+    res.json({unix: Date.parse(req.params.date_string), utc: new Date(req.params.date_string).toUTCString()})
   else if (req.params.date_string === '')
     res.json({unix: new Date().getTime(), utc: new Date().toUTCString()})
   else if (+req.params.date_string > 0)
