@@ -13,6 +13,7 @@ app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path} - ${req.ip}`)
+  console.log(new Date(1450137600))
   next()
 })
 
@@ -31,17 +32,22 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string", function (req, res) {
-  const date = req.params.date_string
+  const date = ''
   
-  if (date === '')
+  if (req.params.date_string === '')
     date = new Date()
+  else
+    date = new Date(req.params.date_string)
   
-  if (Date.parse(date))
-    res.json({unix: Date.parse(date), utc: new Date(date)})
+  // if (date === '')
+  //   date = new Date()
+  
+  if (date)
+    res.json({unix: date.getTime(), utc: date.toUTCString()})
   else 
-    res.json({unix: , utc: })
+    res.json({unix: null, utc: 'Invalid Date'})
   
-  res.json({greeting: 'hello API'});
+  // res.json({greeting: 'hello API'});
 });
 
 
