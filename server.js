@@ -31,6 +31,15 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string", function (req, res) {
+  const date = req.params.date_string
+  
+  if (date === '')
+    date = new Date()
+  
+  if (Date.parse(date))
+    res.json({unix: Date.parse(date), utc: new Date(date)})
+  else 
+    res.json({unix: , utc: })
   
   res.json({greeting: 'hello API'});
 });
