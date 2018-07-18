@@ -23,8 +23,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
-// your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
@@ -32,13 +30,15 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/timestamp/:date_string", function (req, res) {
   let date = ''
   
-  if(/\d{4}-\d{2}-\d{2}/.test(req.params.date_string)){
-    date = new Date(Date.parse(req.params.date_string))
-  }
-  else {
+  if(/\d{4}-\d{2}-\d{2}/.test(req.params.date_string))
+    date = new Date(req.params.date_string)
+  else 
     date = new Date(+req.params.date_string)   
-  }  
-  res.json({unix: date.getTime(), utc: date.toUTCString()})
+  
+  if (date.getTime())
+    res.json({unix: date.getTime(), utc: date.toUTCString()})
+  else 
+    res.json({error: 'Invalid Date'})
 });
 
 app.get("/api/timestamp/", function (req, res) {
@@ -46,8 +46,7 @@ app.get("/api/timestamp/", function (req, res) {
   res.json({unix: date.getTime(), utc: date.toUTCString()})  
 });
 
-
-// listen for requests :)
+// listen for requests
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
