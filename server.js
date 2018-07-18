@@ -30,12 +30,8 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string", function (req, res) {
-  let date = new Date(req.params.date_string)
-  
-  if (req.params.date_string === '')
-    date = new Date()
-  else
-    date = new Date(req.params.date_string)
+  const date = new Date(req.params.date_string)
+
   res.json({unix: date.getTime(), utc: date.toUTCString()})
   // if (Date.parse(req.params.date_string))
   //   res.json({unix: Date.parse(req.params.date_string), utc: new Date(req.params.date_string).toUTCString()})
@@ -48,6 +44,10 @@ app.get("/api/timestamp/:date_string", function (req, res) {
   
 });
 
+app.get("/api/timestamp/", function (req, res) {
+  const date = new Date()
+  res.json({unix: date.getTime(), utc: date.toUTCString()})  
+});
 
 
 // listen for requests :)
