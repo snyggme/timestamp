@@ -30,10 +30,17 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string", function (req, res) {
-  console.log(/a/.test(req.params.date_string))
-  const date = new Date(req.params.date_string)
+  let date = ''
+  if(/\d{4}-\d{2}-\d{2}/.test(req.params.date_string)){
+    date = new Date(req.params.date_string)
+    res.json({unix: date.getTime(), utc: date.toUTCString()})
+  }
+  else {
+    date = new Date(+req.params.date_string)
+    res.json({unix: date, utc: date})
+  }
 
-  res.json({unix: date.getTime(), utc: date.toUTCString()})
+  
   // if (Date.parse(req.params.date_string))
   //   res.json({unix: Date.parse(req.params.date_string), utc: new Date(req.params.date_string).toUTCString()})
   // else if (req.params.date_string === '')
